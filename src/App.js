@@ -14,8 +14,8 @@ export default function App() {
 
   const [srcOneWay, setSrcOneWay] = useState('');
   const [destOneWay, setDestOneWay] = useState('');
-  const [srcMultiWay, setSrcMultiWay] = useState('');
-  const [destMultiWay, setDestMultiWay] = useState('');
+  const [srcMultiCity, setsrcMultiCity] = useState(destOneWay);
+  const [destMultiCity, setDestMultiCity] = useState('');
   const [srcReturn, setSrcReturn] = useState('');
   const [destReturn, setDestReturn] = useState('');
 
@@ -27,17 +27,17 @@ export default function App() {
 
   // console.log(srcOneWay);
   // console.log(destOneWay);
-  // console.log(srcMultiWay);
-  // console.log(destMultiWay);
+  // console.log(srcMultiCity);
+  // console.log(destMultiCity);
   // console.log(srcReturn);
   // console.log(destReturn);
 
   useEffect(() => {
     let isValid = true;
     switch (flightOption) {
-      case 'multi-way':
+      case 'multi-city':
         isValid &=
-          srcMultiWay !== '' && destMultiWay !== '' && midDate !== null;
+          srcMultiCity !== '' && destMultiCity !== '' && midDate !== null;
       case 'return':
         isValid &= srcReturn !== '' && destReturn !== '' && endDate !== null;
       default:
@@ -79,23 +79,33 @@ export default function App() {
     </div>
   );
 
+  const alertUser = () => {
+    switch (flightOption) {
+      case 'one-way':
+        alert(
+          `You are looking for ${flightOption} flight from ${srcOneWay} to ${destOneWay} on ${startDate}`
+        );
+        break;
+      case 'multi-city':
+        alert(
+          `You are looking for ${flightOption} flight from ${srcOneWay} to ${destOneWay} and from ${srcMultiCity} to ${destMultiCity} and from ${srcReturn} to ${destReturn}`
+        );
+        break;
+      case 'return':
+        alert(
+          `You are looking for ${flightOption} flight from ${srcOneWay} to ${destOneWay} and from ${srcReturn} to ${destReturn}`
+        );
+        break;
+    }
+  };
+
   return (
     <div>
       <div style={{ minWidth: '475px' }}>
         {radioGroup}
         <div className={'flight-option'}>
-          <Search
-            label="From"
-            location={srcOneWay}
-            onSelect={setSrcOneWay}
-            onChange={setSrcOneWay}
-          />
-          <Search
-            label="To"
-            location={destOneWay}
-            onSelect={setDestOneWay}
-            onChange={setDestOneWay}
-          />
+          <Search label="From" location={srcOneWay} onSelect={setSrcOneWay} />
+          <Search label="To" location={destOneWay} onSelect={setDestOneWay} />
           <Calendar
             startDay={TODAY}
             label="When"
@@ -108,15 +118,13 @@ export default function App() {
             <div className={'flight-option'}>
               <Search
                 label="From"
-                location={srcMultiWay}
-                onSelect={setSrcMultiWay}
-                onChange={setSrcMultiWay}
+                location={srcMultiCity}
+                onSelect={setsrcMultiCity}
               />
               <Search
                 label="To"
-                location={destMultiWay}
-                onSelect={setDestMultiWay}
-                onChange={setDestMultiWay}
+                location={destMultiCity}
+                onSelect={setDestMultiCity}
               />
               <Calendar
                 startDay={startDate}
@@ -130,13 +138,11 @@ export default function App() {
                 label="From"
                 location={srcReturn}
                 onSelect={setSrcReturn}
-                onChange={setSrcReturn}
               />
               <Search
                 label="To"
                 location={destReturn}
                 onSelect={setDestReturn}
-                onChange={setDestReturn}
               />
               <Calendar
                 startDay={midDate}
@@ -149,18 +155,8 @@ export default function App() {
         )}
         {flightOption === 'return' && (
           <div className={'flight-option'}>
-            <Search
-              label="From"
-              location={srcReturn}
-              onSelect={setSrcReturn}
-              onChange={setSrcReturn}
-            />
-            <Search
-              label="To"
-              location={destReturn}
-              onSelect={setDestReturn}
-              onChange={setDestReturn}
-            />
+            <Search label="From" location={srcReturn} onSelect={setSrcReturn} />
+            <Search label="To" location={destReturn} onSelect={setDestReturn} />
             <Calendar
               startDay={startDate}
               label="When"
@@ -170,7 +166,7 @@ export default function App() {
           </div>
         )}
       </div>
-      <button className={'search'} disabled={!isValid}>
+      <button className={'search'} disabled={!isValid} onClick={alertUser}>
         Search flights
       </button>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const cities = require('./cities.json');
 
-const Search = ({ location, label, onSelect, onChange }) => {
+const Search = ({ location, label, onSelect }) => {
   const [text, setText] = useState(location || '');
 
   const cityList = Object.values(cities)
@@ -36,7 +36,7 @@ const Search = ({ location, label, onSelect, onChange }) => {
         onChange={(e) => {
           const targetVal = e.target.value.toUpperCase();
           setText(targetVal);
-          onChange(targetVal);
+          if (targetVal == '') onSelect(targetVal);
         }}
       />
 
