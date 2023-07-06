@@ -14,7 +14,7 @@ export default function App() {
 
   const [srcOneWay, setSrcOneWay] = useState('');
   const [destOneWay, setDestOneWay] = useState('');
-  const [srcMultiCity, setsrcMultiCity] = useState(destOneWay);
+  const [srcMultiCity, setSrcMultiCity] = useState('');
   const [destMultiCity, setDestMultiCity] = useState('');
   const [srcReturn, setSrcReturn] = useState('');
   const [destReturn, setDestReturn] = useState('');
@@ -43,7 +43,6 @@ export default function App() {
       default:
         isValid &= srcOneWay !== '' && destOneWay !== '' && startDate !== null;
     }
-    console.log('valid', isValid);
     setIsValid(isValid);
   });
 
@@ -93,7 +92,7 @@ export default function App() {
         break;
       case 'return':
         alert(
-          `You are looking for ${flightOption} flight from ${srcOneWay} to ${destOneWay} and from ${srcReturn} to ${destReturn}`
+          `You are looking for ${flightOption} flight from ${srcOneWay} to ${destOneWay} on ${startDate} and from ${srcReturn} to ${destReturn} on ${endDate}`
         );
         break;
     }
@@ -108,7 +107,7 @@ export default function App() {
           <Search label="To" location={destOneWay} onSelect={setDestOneWay} />
           <Calendar
             startDay={TODAY}
-            label="When"
+            label="Departure"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
@@ -119,7 +118,7 @@ export default function App() {
               <Search
                 label="From"
                 location={srcMultiCity}
-                onSelect={setsrcMultiCity}
+                onSelect={setSrcMultiCity}
               />
               <Search
                 label="To"
@@ -155,11 +154,15 @@ export default function App() {
         )}
         {flightOption === 'return' && (
           <div className={'flight-option'}>
-            <Search label="From" location={srcReturn} onSelect={setSrcReturn} />
-            <Search label="To" location={destReturn} onSelect={setDestReturn} />
+            <Search
+              label="From"
+              location={destOneWay}
+              onSelect={setSrcReturn}
+            />
+            <Search label="To" location={srcOneWay} onSelect={setDestReturn} />
             <Calendar
               startDay={startDate}
-              label="When"
+              label="Return"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
