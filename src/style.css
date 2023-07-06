@@ -1,0 +1,26 @@
+body {
+  font-family: sans-serif;
+}
+
+.flight-option-group {
+  width: 100%;
+  display: flex;
+}
+
+.flight-option {
+  font-size: small;
+  margin: 10px 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search {
+  width: 100%;
+  border-color: aliceblue;
+  border-radius: 1px;
+  padding: 4px 0;
+  background: aqua;
+  margin: 10px 0;
+}
